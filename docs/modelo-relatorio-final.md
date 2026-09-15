@@ -25,12 +25,17 @@
 
 ## 3. Registro Diario de Commits
 
-| Data | Autor (RA) | Commit | Descricao |
+| Data | Autor (RA) | Hash | Descricao |
 |---|---|---|---|
+| 14/09/2026 | Ubaldo11 | 337d702 | Initial commit (README auto do GitHub) |
 | 14/09/2026 | Alessandro (166600) | f3b44ee | feat: commit inicial (estrutura base + docker-compose) |
 | 14/09/2026 | Alessandro (166600) | ef8726f | chore: integrar README do GitHub |
 | 14/09/2026 | Alessandro (166600) | 5f58e82 | chore: hook de validacao de commits |
+| 15/09/2026 | Alessandro (166600) | bfa6bbe | docs: modelo do relatorio final (PR #1) |
 | ... | ... | ... | ... |
+
+> Dica: para gerar o historico real ao final do projeto, use
+> `git log --pretty=format:"%h|%an|%ad|%s" --date=format:"%d/%m/%Y %H:%M"`
 
 ## 4. Arquitetura dos Contêineres
 

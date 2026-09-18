@@ -1,317 +1,411 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-```
-<meta
-    name="description"
-    content="Sistema de consulta de servidores ativos e aposentados do Poder Executivo Federal."
->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>Consulta de Servidores Federais</title>
+    <meta
+        name="description"
+        content="Consulta pública de servidores do Poder Executivo Federal."
+    >
 
-<link rel="stylesheet" href="css/style.css">
-```
+    <title>Servidores Federais | FURG</title>
 
+    <link
+        rel="stylesheet"
+        href="css/style.css?v=2"
+    >
 </head>
 
 <body>
 
-```
-<header class="header">
-    <div class="container header-content">
-        <div class="brand">
-            <div class="brand-icon">BR</div>
+    <!-- =====================================================
+         CABEÇALHO INSTITUCIONAL
+         ===================================================== -->
 
-            <div>
-                <h1>Servidores Federais</h1>
-                <p>Consulta de dados do Poder Executivo Federal</p>
-            </div>
-        </div>
+    <header class="site-header">
 
-        <div class="header-status">
-            <span class="status-dot"></span>
-            <span>API disponível</span>
-        </div>
-    </div>
-</header>
+        <div class="header-container">
 
+            <div class="institution">
 
-<main class="container main-content">
-
-    <section class="hero">
-        <span class="hero-label">CONSULTA PÚBLICA</span>
-
-        <h2>
-            Encontre servidores do
-            <span>Poder Executivo Federal</span>
-        </h2>
-
-        <p>
-            Pesquise servidores por nome, cargo, estado, órgão ou combine
-            diferentes critérios para refinar sua consulta.
-        </p>
-    </section>
-
-
-    <section class="search-card">
-
-        <div class="card-header">
-            <div>
-                <h3>Pesquisar servidores</h3>
-                <p>Informe um ou mais critérios de busca.</p>
-            </div>
-
-            <button
-                type="button"
-                id="clearButton"
-                class="button button-secondary"
-            >
-                Limpar
-            </button>
-        </div>
-
-
-        <form id="searchForm">
-
-            <div class="form-grid">
-
-                <div class="form-group form-group-large">
-                    <label for="nome">Nome</label>
-
-                    <input
-                        type="text"
-                        id="nome"
-                        name="nome"
-                        placeholder="Ex.: João da Silva"
-                        autocomplete="off"
-                    >
+                <div class="institution-name">
+                    Universidade Federal do Rio Grande – FURG
                 </div>
 
-
-                <div class="form-group">
-
-                    <label for="cargo">Cargo / Profissão</label>
-
-                    <input
-                        type="text"
-                        id="cargo"
-                        name="cargo"
-                        placeholder="Ex.: Analista"
-                        autocomplete="off"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="uf">Estado (UF)</label>
-
-                    <select id="uf" name="uf">
-                        <option value="">Todos os estados</option>
-                        <option value="AC">AC - Acre</option>
-                        <option value="AL">AL - Alagoas</option>
-                        <option value="AP">AP - Amapá</option>
-                        <option value="AM">AM - Amazonas</option>
-                        <option value="BA">BA - Bahia</option>
-                        <option value="CE">CE - Ceará</option>
-                        <option value="DF">DF - Distrito Federal</option>
-                        <option value="ES">ES - Espírito Santo</option>
-                        <option value="GO">GO - Goiás</option>
-                        <option value="MA">MA - Maranhão</option>
-                        <option value="MT">MT - Mato Grosso</option>
-                        <option value="MS">MS - Mato Grosso do Sul</option>
-                        <option value="MG">MG - Minas Gerais</option>
-                        <option value="PA">PA - Pará</option>
-                        <option value="PB">PB - Paraíba</option>
-                        <option value="PR">PR - Paraná</option>
-                        <option value="PE">PE - Pernambuco</option>
-                        <option value="PI">PI - Piauí</option>
-                        <option value="RJ">RJ - Rio de Janeiro</option>
-                        <option value="RN">RN - Rio Grande do Norte</option>
-                        <option value="RS">RS - Rio Grande do Sul</option>
-                        <option value="RO">RO - Rondônia</option>
-                        <option value="RR">RR - Roraima</option>
-                        <option value="SC">SC - Santa Catarina</option>
-                        <option value="SP">SP - São Paulo</option>
-                        <option value="SE">SE - Sergipe</option>
-                        <option value="TO">TO - Tocantins</option>
-                    </select>
-
-                </div>
-
-
-                <div class="form-group form-group-large">
-
-                    <label for="orgao">Instituição / Órgão</label>
-
-                    <input
-                        type="text"
-                        id="orgao"
-                        name="orgao"
-                        placeholder="Ex.: Ministério da Educação"
-                        autocomplete="off"
-                    >
-
+                <div class="institution-unit">
+                    Unidade C3 – Centro de Ciências Computacionais
                 </div>
 
             </div>
 
+            <div class="system-name">
+                Consulta de Servidores
+            </div>
 
-            <div class="search-options">
+        </div>
 
-                <div class="similarity-option">
+    </header>
 
-                    <label class="checkbox-label">
 
-                        <input
-                            type="checkbox"
-                            id="similarCheckbox"
-                        >
+    <!-- =====================================================
+         CONTEÚDO PRINCIPAL
+         ===================================================== -->
 
-                        <span class="custom-checkbox"></span>
+    <main class="main-content">
 
-                        <span>
-                            Busca por similaridade
-                        </span>
+        <!-- INTRODUÇÃO -->
 
-                    </label>
+        <section class="intro">
 
-                    <span class="help-text">
-                        Encontra nomes semelhantes ao informado.
+            <span class="eyebrow">
+                CONSULTA PÚBLICA
+            </span>
+
+            <h1>
+                Servidores do Poder<br>
+                Executivo Federal
+            </h1>
+
+            <p>
+                Consulte servidores utilizando nome, cargo, estado,
+                órgão ou uma combinação de filtros.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             ÁREA DE PESQUISA
+             ================================================= -->
+
+        <section class="search-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <span class="section-label">
+                        CONSULTA DE DADOS
                     </span>
 
-                </div>
+                    <h2>
+                        Pesquisar servidores
+                    </h2>
 
-
-                <div
-                    class="limit-container hidden"
-                    id="limitContainer"
-                >
-
-                    <label for="limit">
-                        Limite de resultados
-                    </label>
-
-                    <select id="limit">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100" selected>100</option>
-                    </select>
+                    <p>
+                        Informe um ou mais critérios para realizar a busca.
+                    </p>
 
                 </div>
-
-            </div>
-
-
-            <div class="form-actions">
 
                 <button
-                    type="submit"
-                    id="searchButton"
-                    class="button button-primary"
+                    type="button"
+                    id="clearButton"
+                    class="button button-secondary"
                 >
-                    <span class="button-icon">⌕</span>
-                    Pesquisar
+                    Limpar
                 </button>
 
             </div>
 
-        </form>
-
-    </section>
-
-
-    <section
-        id="messageArea"
-        class="message-area hidden"
-    ></section>
-
-
-    <section
-        id="loading"
-        class="loading hidden"
-    >
-        <div class="spinner"></div>
-
-        <p>Consultando servidores...</p>
-    </section>
-
-
-    <section
-        id="resultsSection"
-        class="results-section hidden"
-    >
-
-        <div class="results-header">
-
-            <div>
-                <span class="section-label">RESULTADOS</span>
-
-                <h3>
-                    Servidores encontrados
-                </h3>
-            </div>
 
             <div
-                id="resultsCount"
-                class="results-count"
+                id="messageArea"
+                class="message hidden"
+                role="alert"
+            ></div>
+
+
+            <form
+                id="searchForm"
+                autocomplete="off"
             >
-                0 resultados
+
+                <div class="form-grid">
+
+                    <!-- NOME -->
+
+                    <div class="field field-full">
+
+                        <label for="nome">
+                            Nome
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nome"
+                            name="nome"
+                            placeholder="Digite o nome do servidor"
+                        >
+
+                    </div>
+
+
+                    <!-- CARGO -->
+
+                    <div class="field">
+
+                        <label for="cargo">
+                            Cargo / Profissão
+                        </label>
+
+                        <input
+                            type="text"
+                            id="cargo"
+                            name="cargo"
+                            placeholder="Ex.: Analista"
+                        >
+
+                    </div>
+
+
+                    <!-- UF -->
+
+                    <div class="field">
+
+                        <label for="uf">
+                            Estado (UF)
+                        </label>
+
+                        <select
+                            id="uf"
+                            name="uf"
+                        >
+
+                            <option value="">
+                                Todos os estados
+                            </option>
+
+                            <option value="AC">AC</option>
+                            <option value="AL">AL</option>
+                            <option value="AP">AP</option>
+                            <option value="AM">AM</option>
+                            <option value="BA">BA</option>
+                            <option value="CE">CE</option>
+                            <option value="DF">DF</option>
+                            <option value="ES">ES</option>
+                            <option value="GO">GO</option>
+                            <option value="MA">MA</option>
+                            <option value="MT">MT</option>
+                            <option value="MS">MS</option>
+                            <option value="MG">MG</option>
+                            <option value="PA">PA</option>
+                            <option value="PB">PB</option>
+                            <option value="PR">PR</option>
+                            <option value="PE">PE</option>
+                            <option value="PI">PI</option>
+                            <option value="RJ">RJ</option>
+                            <option value="RN">RN</option>
+                            <option value="RS">RS</option>
+                            <option value="RO">RO</option>
+                            <option value="RR">RR</option>
+                            <option value="SC">SC</option>
+                            <option value="SP">SP</option>
+                            <option value="SE">SE</option>
+                            <option value="TO">TO</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ÓRGÃO -->
+
+                    <div class="field field-full">
+
+                        <label for="orgao">
+                            Órgão
+                        </label>
+
+                        <input
+                            type="text"
+                            id="orgao"
+                            name="orgao"
+                            placeholder="Digite o órgão"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- OPÇÕES -->
+
+                <div class="search-options">
+
+                    <label class="check-option">
+
+                        <input
+                            type="checkbox"
+                            id="similarCheckbox"
+                            name="similar"
+                        >
+
+                        <span class="checkmark"></span>
+
+                        <span>
+                            Pesquisa por nome similar
+                        </span>
+
+                    </label>
+
+
+                    <div
+                        id="limitContainer"
+                        class="limit-control hidden"
+                    >
+
+                        <label for="limit">
+                            Resultados por página
+                        </label>
+
+                        <select id="limit">
+
+                            <option value="10">
+                                10
+                            </option>
+
+                            <option value="25">
+                                25
+                            </option>
+
+                            <option value="50">
+                                50
+                            </option>
+
+                            <option value="100">
+                                100
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AÇÕES -->
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        id="searchButton"
+                        class="button button-primary"
+                    >
+                        <span class="button-icon">⌕</span>
+                        Pesquisar
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- =================================================
+             CARREGAMENTO
+             ================================================= -->
+
+        <div
+            id="loading"
+            class="loading hidden"
+        >
+
+            <div class="spinner"></div>
+
+            <span>
+                Consultando dados...
+            </span>
+
+        </div>
+
+
+        <!-- =================================================
+             RESULTADOS
+             ================================================= -->
+
+        <section
+            id="resultsSection"
+            class="results-section hidden"
+        >
+
+            <div class="results-header">
+
+                <div>
+
+                    <span class="section-label">
+                        RESULTADOS
+                    </span>
+
+                    <h2>
+                        Servidores encontrados
+                    </h2>
+
+                </div>
+
+                <span
+                    id="resultsCount"
+                    class="results-count"
+                >
+                    0 resultados
+                </span>
+
+            </div>
+
+
+            <div
+                id="resultsList"
+                class="results-list"
+            ></div>
+
+
+            <nav
+                id="pagination"
+                class="pagination"
+                aria-label="Paginação"
+            ></nav>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         RODAPÉ
+         ===================================================== -->
+
+    <footer class="site-footer">
+
+        <div class="footer-container">
+
+            <div>
+                <strong>
+                    Universidade Federal do Rio Grande – FURG
+                </strong>
+
+                <span>
+                    Unidade C3 – Centro de Ciências Computacionais
+                </span>
+            </div>
+
+            <div class="footer-status">
+                <span class="status-dot"></span>
+                API disponível
             </div>
 
         </div>
 
-
-        <div
-            id="resultsList"
-            class="results-list"
-        ></div>
+    </footer>
 
 
-        <div
-            id="pagination"
-            class="pagination"
-        ></div>
-
-    </section>
-
-</main>
-
-
-<footer class="footer">
-
-    <div class="container footer-content">
-
-        <div>
-            <strong>Servidores Federais</strong>
-
-            <p>
-                Sistema desenvolvido para consulta de dados públicos.
-            </p>
-        </div>
-
-        <div class="footer-info">
-            <span>Dados Públicos</span>
-            <span>•</span>
-            <span>PostgreSQL</span>
-            <span>•</span>
-            <span>API Flask</span>
-        </div>
-
-    </div>
-
-</footer>
-
-
-<script src="js/api.js"></script>
-<script src="js/app.js"></script>
-```
+    <script src="js/app.js?v=2"></script>
 
 </body>
 </html>

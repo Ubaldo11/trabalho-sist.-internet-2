@@ -1,0 +1,191 @@
+============================================================
+RELATORIO DE SITUACAO ATUAL - TRABALHO 3o BIMESTRE
+============================================================
+
+Data: 24/09/2026
+Projeto: Aplicacao Full Stack - Servidores do Poder Executivo Federal
+Repositorio: Ubaldo11/trabalho-sist.-internet-2
+Branch: gerente
+Responsavel por este relatorio: Alessandro Goldas da Cruz (RA 166600)
+Papel: Gerente / Lider Tecnico
+Prazo de entrega: 13/10/2026
+
+------------------------------------------------------------
+1. OBJETIVO DO TRABALHO
+------------------------------------------------------------
+
+Construir uma aplicacao full stack para consultar dados de servidores ativos
+e aposentados do Poder Executivo Federal, utilizando:
+
+- GitHub para versionamento e trabalho em equipe;
+- Docker e Docker Compose;
+- PostgreSQL no servico db-server;
+- Python, Flask e Gunicorn no backend;
+- HTML, CSS e JavaScript no frontend;
+- buscas por nome, cargo, UF, orgao, filtros combinados e similaridade;
+- resultados JSON, paginacao, validacao e protecao contra sobrecarga.
+
+------------------------------------------------------------
+2. RESPONSABILIDADES DA EQUIPE
+------------------------------------------------------------
+
+Alessandro Goldas da Cruz (166600) - Gerente / Lider Tecnico:
+- Docker Compose e integracao dos containers;
+- documentacao e relatorios;
+- acompanhamento dos commits e branches;
+- validacao final do comando docker compose up --build;
+- controle do historico e burndown.
+
+Daniel Ubaldo (166688):
+- banco PostgreSQL;
+- schema, importacao e indices;
+- tratamento e preparacao dos dados.
+
+Jadson Henrique (155483):
+- frontend HTML/CSS/JavaScript;
+- telas de consulta, resultados e paginacao;
+- consumo da API.
+
+Matheus Siqueira (129870):
+- backend Python/Flask/Gunicorn;
+- endpoints da API;
+- buscas, validacoes, seguranca e tratamento de erros.
+
+Observacao: backend e frontend nao sao responsabilidade de implementacao
+desta branch gerente. A integracao sera feita apos a entrega dos colegas.
+
+------------------------------------------------------------
+3. O QUE ESTA PRONTO
+------------------------------------------------------------
+
+3.1 Git e processo
+
+- Branch gerente criada e sincronizada com origin/gerente.
+- Working tree esta limpa no momento deste relatorio.
+- Hook de validacao de mensagens Conventional Commits configurado no projeto.
+- Ultimo commit enviado:
+  1567f85 feat(db): adicionar container e importacao do banco
+- O commit foi enviado para origin/gerente.
+
+3.2 Docker Compose
+
+O arquivo docker-compose.yml esta estruturado com tres servicos:
+
+- db-server: PostgreSQL, porta 5432, volume persistente e healthcheck;
+- backend: porta 5000, dependente do banco saudavel;
+- frontend: porta 8080, dependente do backend;
+- rede interna app-network;
+- volume db_data.
+
+O comando docker compose config foi executado com sucesso.
+
+Existe apenas um aviso do Docker Compose informando que o atributo version
+esta obsoleto. Esse aviso nao impede a leitura da configuracao.
+
+3.3 Banco e dados
+
+Ja foram criados nesta branch:
+
+- db/Dockerfile baseado em postgres:16-alpine;
+- db/init/001-schema-and-data.sql;
+- db/.dockerignore;
+- relatorios/RELATORIO_MUDANCA_001_DB.md;
+- tabelas aposentados e carreiras;
+- extensao pg_trgm;
+- indices planejados para nome, cargo, UF, orgao e CPF;
+- importacao dos CSVs preparados por COPY.
+
+Preparacao local dos dados:
+
+- Aposentados: 815.901 registros exportados;
+- Carreiras: 1.092.162 registros exportados;
+- nenhuma linha rejeitada pelo script de preparacao;
+- duplicatas removidas por igualdade exata apos normalizacao;
+- acentos, delimitadores, datas e valores monetarios tratados.
+
+3.4 Frontend
+
+O frontend possui Dockerfile e arquivos HTML, CSS e JavaScript iniciais.
+O build da imagem frontend foi executado com sucesso.
+A implementacao e responsabilidade do integrante Jadson.
+
+------------------------------------------------------------
+4. TESTES REALIZADOS
+------------------------------------------------------------
+
+- git status: branch gerente limpa e sincronizada;
+- docker compose config: passou;
+- docker compose build db-server frontend: passou;
+- imagem db-server: construida com sucesso;
+- imagem frontend: construida com sucesso;
+- tentativa de inicializacao limpa do PostgreSQL: falhou na importacao.
+
+------------------------------------------------------------
+5. PENDENCIAS E BLOQUEIOS
+------------------------------------------------------------
+
+5.1 Bloqueio do banco
+
+A inicializacao do banco falhou durante o COPY da tabela aposentados.
+O erro foi:
+
+null value in column "portaria_aposentadoria" violates not-null constraint
+
+O CSV possui valores vazios nesse campo. O schema atual definiu a coluna
+como NOT NULL. A coluna precisa aceitar NULL ou a importacao precisa tratar
+explicitamente os valores vazios.
+
+Enquanto essa correcao nao for feita, o banco nao conclui a importacao e os
+indices nao sao criados na inicializacao.
+
+5.2 Backend ausente
+
+Ainda falta o Dockerfile do backend, alem da aplicacao Flask, requirements,
+Gunicorn, endpoints, paginacao, validacoes e protecao contra sobrecarga.
+Essa parte pertence ao Matheus.
+
+5.3 Integracao completa bloqueada
+
+O comando docker compose up --build ainda nao pode ser considerado aprovado,
+porque o backend/Dockerfile nao existe e a inicializacao do banco falha com
+o campo vazio informado acima.
+
+5.4 Dados grandes fora do Git
+
+Os CSVs preparados estao ignorados pelo .gitignore por causa de db/data/ e
+*.csv. Eles nao foram enviados ao repositorio. Para que outra maquina consiga
+executar o projeto, sera necessario fornecer os dados separadamente ou criar
+uma rotina documentada para baixa e preparacao dos arquivos.
+
+------------------------------------------------------------
+6. PROXIMOS PASSOS NA ORDEM
+------------------------------------------------------------
+
+1. Corrigir o schema/importacao do banco para aceitar campos vazios validos.
+2. Recriar um volume PostgreSQL limpo e validar as duas contagens:
+   aposentados = 815.901;
+   carreiras = 1.092.162.
+3. Confirmar a criacao dos indices e registrar o resultado no relatorio.
+4. Aguardar o Dockerfile e backend Flask/Gunicorn do Matheus.
+5. Integrar backend e testar os endpoints exigidos pelo enunciado.
+6. Aguardar a entrega final do frontend do Jadson.
+7. Executar docker compose up --build com os tres servicos.
+8. Testar buscas, paginacao, erros, similaridade e sobrecarga.
+9. Atualizar o relatorio final, historico diario e burndown.
+
+------------------------------------------------------------
+7. PARECER GERENCIAL
+------------------------------------------------------------
+
+A estrutura inicial do projeto e o Compose estao encaminhados. A parte de
+Docker sob responsabilidade do gerente possui o Compose, a rede, o volume,
+o healthcheck e os Dockerfiles disponiveis do banco e frontend.
+
+Entretanto, a entrega ainda nao esta pronta para avaliacao. O banco precisa
+corrigir a importacao de valores vazios, o backend ainda precisa ser entregue
+e a integracao dos tres containers ainda nao foi validada.
+
+Situacao geral: EM DESENVOLVIMENTO, com infraestrutura parcialmente pronta.
+
+Este relatorio foi produzido antes de qualquer nova alteracao no codigo.
+============================================================

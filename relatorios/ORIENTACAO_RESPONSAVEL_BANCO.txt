@@ -1,0 +1,297 @@
+============================================================
+ORIENTACAO AO RESPONSAVEL PELO BANCO DE DADOS
+TRABALHO TERCEIRO TRIMESTRE - SISTEMAS PARA INTERNET II
+============================================================
+
+Data: 25/09/2026
+Repositorio: Ubaldo11/trabalho-sist.-internet-2
+Projeto: Aplicacao Full Stack - Servidores do Poder Executivo Federal
+
+Este arquivo resume o que precisa ser corrigido e entregue no banco de dados
+para que o Docker e o backend consigam utilizar o PostgreSQL.
+
+------------------------------------------------------------
+1. ESTRUTURA OBRIGATORIA DE PASTAS
+------------------------------------------------------------
+
+A partir da raiz do projeto, manter esta estrutura:
+
+projeto/
+|-- docker-compose.yml
+`-- db/
+    |-- Dockerfile
+    |-- init/
+    |   `-- 001-schema-and-data.sql
+    `-- data/
+        `-- preparados/
+            |-- aposentados.csv
+            |-- carreiras.csv
+            `-- relatorio_preparacao.json
+
+O Dockerfile do banco deve ficar em:
+
+projeto/db/Dockerfile
+
+O script SQL executado automaticamente pelo PostgreSQL deve ficar em:
+
+projeto/db/init/001-schema-and-data.sql
+
+Os arquivos CSV limpos devem ficar em:
+
+projeto/db/data/preparados/
+
+Nao criar um arquivo .db. O banco sera criado pelo PostgreSQL dentro do
+container e persistido pelo volume definido no docker-compose.yml.
+
+------------------------------------------------------------
+2. NOME DO BANCO E CREDENCIAIS
+------------------------------------------------------------
+
+O docker-compose.yml ja define estes valores:
+
+Banco: servidores_db
+Usuario: servidores
+Senha: servidores123
+Host interno para o backend: db-server
+Porta interna: 5432
+
+O PostgreSQL deve usar exatamente esses nomes para o backend conseguir
+conectar pela variavel DATABASE_URL:
+
+postgresql://servidores:servidores123@db-server:5432/servidores_db
+
+O nome do servico Docker deve continuar sendo:
+
+db-server
+
+------------------------------------------------------------
+3. TABELAS OBRIGATORIAS
+------------------------------------------------------------
+
+O banco deve criar no minimo estas tabelas:
+
+1. aposentados
+2. carreiras
+
+Tabela aposentados: campos preparados no CSV
+
+- nome
+- cpf
+- matricula
+- orgao
+- sigla_orgao
+- orgao_vinculacao
+- cargo_emprego
+- classe
+- padrao
+- referencia
+- nivel
+- tipo_aposentadoria
+- fundamento_legal
+- portaria_aposentadoria
+- data_inatividade
+- nome_ocorrencia
+- data_ingresso_servico_publico
+- valor_aposentadoria
+
+Tabela carreiras: campos preparados no CSV
+
+- nome
+- cpf
+- codigo_carreira
+- cargo_emprego
+- uf
+- orgao
+- mes_referencia
+- valor_remuneracao
+
+As tabelas podem possuir uma chave primaria tecnica id BIGSERIAL, alem dos
+campos dos arquivos preparados.
+
+------------------------------------------------------------
+4. CORRECAO OBRIGATORIA DA IMPORTACAO
+------------------------------------------------------------
+
+A validacao atual falhou durante o COPY da tabela aposentados com o erro:
+
+null value in column "portaria_aposentadoria" violates not-null constraint
+
+O CSV possui valores vazios validos nesse campo. Portanto, a coluna
+portaria_aposentadoria NAO pode ser NOT NULL.
+
+Tambem devem aceitar NULL, caso existam valores vazios:
+
+- portaria_aposentadoria
+- data_inatividade
+- data_ingresso_servico_publico
+- valor_aposentadoria
+
+As demais colunas devem ser avaliadas conforme os dados reais antes de usar
+NOT NULL. O importante e nao rejeitar registros validos por causa de campos
+opcionais vazios.
+
+No COPY, manter o tratamento de vazio como NULL:
+
+WITH (FORMAT csv, HEADER true, DELIMITER ';', NULL '')
+
+Depois da correcao, destruir o volume de teste e criar um volume novo para
+validar a inicializacao desde o zero. Volumes antigos nao executam novamente
+os scripts de /docker-entrypoint-initdb.d.
+
+------------------------------------------------------------
+5. INDICES OBRIGATORIOS PELO ENUNCIADO
+------------------------------------------------------------
+
+O enunciado exige consultas por:
+
+- nome exato;
+- nome similar;
+- cargo ou profissao;
+- estado/UF;
+- instituicao/orgao;
+- combinacao de filtros.
+
+Por isso, criar os seguintes indices:
+
+5.1 Tabela aposentados
+
+- indice para nome, preferencialmente GIN com pg_trgm para similaridade;
+- indice para cargo_emprego;
+- indice para orgao;
+- indice para cpf, se usado para identificacao;
+- indice para matricula, se usado nas consultas.
+
+Exemplo:
+
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
+CREATE INDEX aposentados_nome_trgm_idx
+    ON aposentados USING GIN (nome gin_trgm_ops);
+
+CREATE INDEX aposentados_cargo_idx
+    ON aposentados (cargo_emprego);
+
+CREATE INDEX aposentados_orgao_idx
+    ON aposentados (orgao);
+
+CREATE INDEX aposentados_cpf_idx
+    ON aposentados (cpf);
+
+5.2 Tabela carreiras
+
+- indice para nome, preferencialmente GIN com pg_trgm para similaridade;
+- indice para cargo_emprego;
+- indice para uf;
+- indice para orgao;
+- indice para cpf, se usado para identificacao.
+
+Exemplo:
+
+CREATE INDEX carreiras_nome_trgm_idx
+    ON carreiras USING GIN (nome gin_trgm_ops);
+
+CREATE INDEX carreiras_cargo_idx
+    ON carreiras (cargo_emprego);
+
+CREATE INDEX carreiras_uf_idx
+    ON carreiras (uf);
+
+CREATE INDEX carreiras_orgao_idx
+    ON carreiras (orgao);
+
+CREATE INDEX carreiras_cpf_idx
+    ON carreiras (cpf);
+
+Os indices de nome com pg_trgm sao necessarios para as buscas por
+similaridade solicitadas no enunciado. Os indices de cargo, UF e orgao
+atendem as buscas simples e ajudam nas buscas combinadas.
+
+------------------------------------------------------------
+6. DADOS ESPERADOS APOS A IMPORTACAO
+------------------------------------------------------------
+
+O script de preparacao gerou localmente:
+
+- aposentados.csv: 815.901 registros exportados;
+- carreiras.csv: 1.092.162 registros exportados;
+- nenhuma linha rejeitada;
+- duplicatas exatas removidas apos normalizacao.
+
+Depois do COPY, executar:
+
+SELECT 'aposentados' AS tabela, COUNT(*) AS registros
+FROM aposentados
+UNION ALL
+SELECT 'carreiras', COUNT(*)
+FROM carreiras;
+
+Resultado esperado:
+
+ aposentados | 815901
+ carreiras   | 1092162
+
+Tambem conferir os indices:
+
+SELECT tablename, indexname
+FROM pg_indexes
+WHERE tablename IN ('aposentados', 'carreiras')
+ORDER BY tablename, indexname;
+
+------------------------------------------------------------
+7. TESTE MINIMO DO RESPONSAVEL PELO BANCO
+------------------------------------------------------------
+
+A partir da pasta projeto:
+
+1. Construir a imagem:
+
+   docker compose build db-server
+
+2. Remover somente o volume local de teste, se existir:
+
+   docker compose down -v
+
+3. Inicializar o banco:
+
+   docker compose up -d db-server
+
+4. Conferir a saude do servico:
+
+   docker compose ps db-server
+
+5. Conferir contagens e indices com psql dentro do container.
+
+A porta 5432 pode estar ocupada por outro PostgreSQL local. Nesse caso,
+validar o container sem publicar a porta ou parar o processo que ocupa a
+porta. Nao alterar os nomes internos do banco, usuario ou servico.
+
+------------------------------------------------------------
+8. CRITERIO DE ACEITE
+------------------------------------------------------------
+
+O banco sera considerado pronto quando:
+
+[ ] db/Dockerfile construir sem erro;
+[ ] PostgreSQL criar o banco servidores_db;
+[ ] tabelas aposentados e carreiras forem criadas;
+[ ] CSVs forem importados sem rejeitar campos vazios validos;
+[ ] contagens esperadas forem confirmadas;
+[ ] indices de nome, cargo, UF e orgao forem confirmados;
+[ ] busca por similaridade puder usar pg_trgm;
+[ ] o backend puder conectar usando db-server:5432;
+[ ] o resultado for registrado em um commit no padrao Conventional Commits.
+
+Mensagem sugerida para o commit:
+
+fix(db): corrigir importacao e indices do PostgreSQL
+
+------------------------------------------------------------
+9. OBSERVACAO FINAL
+------------------------------------------------------------
+
+O Docker Compose ja espera o servico db-server com PostgreSQL, healthcheck,
+volume persistente e as credenciais acima. O backend e o frontend sao tarefas
+de outros integrantes. A prioridade desta etapa e fazer o banco iniciar do
+zero, importar os dados e disponibilizar as buscas indexadas exigidas pelo
+enunciado.
+============================================================

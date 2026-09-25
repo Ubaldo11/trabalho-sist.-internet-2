@@ -37,9 +37,9 @@ Alessandro Goldas da Cruz (166600) - Gerente / Lider Tecnico:
 - controle do historico e burndown.
 
 Daniel Ubaldo (166688):
-- banco PostgreSQL;
-- schema, importacao e indices;
-- tratamento e preparacao dos dados.
+- backend Python/Flask/Gunicorn;
+- endpoints da API e comunicacao com o banco;
+- validacoes e tratamento de erros do backend.
 
 Jadson Henrique (155483):
 - frontend HTML/CSS/JavaScript;
@@ -47,12 +47,13 @@ Jadson Henrique (155483):
 - consumo da API.
 
 Matheus Siqueira (129870):
-- backend Python/Flask/Gunicorn;
-- endpoints da API;
-- buscas, validacoes, seguranca e tratamento de erros.
+- apoio ao Daniel na integracao das buscas ao sistema;
+- testes das buscas e validacao da integracao entre backend, banco e frontend.
 
-Observacao: backend e frontend nao sao responsabilidade de implementacao
-desta branch gerente. A integracao sera feita apos a entrega dos colegas.
+Observacao: backend e frontend continuam fora da implementacao desta branch
+gerente. Daniel sera o responsavel pelo backend, com apoio do Matheus na
+integracao das buscas ao sistema. A integracao geral sera acompanhada pelo
+gerente apos a entrega dos colegas.
 
 ------------------------------------------------------------
 3. O QUE ESTA PRONTO

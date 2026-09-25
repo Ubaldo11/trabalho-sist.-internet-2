@@ -1,5 +1,5 @@
 ============================================================
-ORIENTACAO AO RESPONSAVEL PELO BANCO DE DADOS
+ORIENTACAO SOBRE O BANCO DE DADOS
 TRABALHO TERCEIRO TRIMESTRE - SISTEMAS PARA INTERNET II
 ============================================================
 
@@ -8,7 +8,9 @@ Repositorio: Ubaldo11/trabalho-sist.-internet-2
 Projeto: Aplicacao Full Stack - Servidores do Poder Executivo Federal
 
 Este arquivo resume o que precisa ser corrigido e entregue no banco de dados
-para que o Docker e o backend consigam utilizar o PostgreSQL.
+para que o Docker e o backend consigam utilizar o PostgreSQL. A execucao desta
+etapa deve ser alinhada com Daniel, responsavel pelo backend, e com Matheus,
+que apoiara a integracao das buscas ao sistema.
 
 ------------------------------------------------------------
 1. ESTRUTURA OBRIGATORIA DE PASTAS

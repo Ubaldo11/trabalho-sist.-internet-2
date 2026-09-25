@@ -10,9 +10,9 @@
 | Nome | RA | Papel / Responsabilidades |
 |---|---|---|
 | Alessandro Goldas da Cruz | 166600 | Gerente / Líder Técnico: docker-compose, documentação, relatórios, burndown |
-| Daniel Ubaldo | 166688 | Banco de Dados: schema PostgreSQL, contêiner db-server, importação e índices |
+| Daniel Ubaldo | 166688 | Backend: Python, Flask, Gunicorn e endpoints da API |
 | Jadson Henrique | 155483 | Frontend: HTML/CSS/JS, telas de busca, paginação, consumo da API |
-| Matheus Siqueira | 129870 | Backend API: Flask + Gunicorn, endpoints, buscas, segurança |
+| Matheus Siqueira | 129870 | Apoio na integração das buscas ao sistema e validação da integração |
 
 ## 2. Cronograma / Sprint (30 dias)
 

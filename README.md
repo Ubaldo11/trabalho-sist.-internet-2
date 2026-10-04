@@ -24,7 +24,7 @@ Serviços:
 
 ## Equipe
 
-- Alessh, Alessandro Goldas da Cruz (166600) - Gerente
+- Alessandro Goldas da Cruz (166600) - Gerente
 - Daniel Ubaldo (166688)
 - Jadson Henrique (155483)
 - Matheus Siqueira (129870)

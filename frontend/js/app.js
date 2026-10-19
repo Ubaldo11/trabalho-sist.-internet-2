@@ -11,6 +11,7 @@
 
 const form = document.getElementById("searchForm");
 
+const tipoSelect = document.getElementById("tipo");
 const nomeInput = document.getElementById("nome");
 const cargoInput = document.getElementById("cargo");
 const ufInput = document.getElementById("uf");
@@ -108,11 +109,15 @@ function getFilters() {
 
     const filters = {};
 
+    const tipo = tipoSelect ? tipoSelect.value : "ativos";
     const nome = nomeInput.value.trim();
     const cargo = cargoInput.value.trim();
     const uf = ufInput.value.trim();
     const orgao = orgaoInput.value.trim();
 
+    if (tipo) {
+        filters.tipo = tipo;
+    }
     if (nome) {
         filters.nome = nome;
     }
@@ -151,6 +156,26 @@ async function performSearch() {
 
     try {
 
+        
+
+        const controller =
+            new AbortController();
+
+        const timeout =
+            setTimeout(
+                () => controller.abort(),
+                10000
+            );
+
+        let endpoint = "/api/servidores";
+        if (state.filters.tipo === "aposentados") {
+            endpoint = "/api/servidores-aposentados";
+        }
+
+        // Remove o parâmetro 'tipo' da query string para não enviar dados desnecessários na URL
+        const searchParams = { ...state.filters };
+        delete searchParams.tipo;
+
         const params = new URLSearchParams();
 
         Object.entries(state.filters).forEach(
@@ -167,17 +192,9 @@ async function performSearch() {
             }
         );
 
-        const controller =
-            new AbortController();
-
-        const timeout =
-            setTimeout(
-                () => controller.abort(),
-                10000
-            );
 
         const response = await fetch(
-            `/api/servidores?${params.toString()}`,
+            `${endpoint}?${params.toString()}`,
             {
                 method: "GET",
                 headers: {
@@ -424,6 +441,8 @@ function createResultCard(server) {
             ]
         ) || "Não informado";
 
+    const tipoServidor = server.tipo_de_aposentadoria ? "Aposentado" : "Ativo";
+
     card.innerHTML = `
         <div class="result-name">
             ${escapeHtml(name)}
@@ -458,6 +477,15 @@ function createResultCard(server) {
 
                 <span class="result-value">
                     ${escapeHtml(orgao)}
+                </span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">
+                    Tipo Servidor
+                </span>
+
+                <span class="result-value">
+                    ${escapeHtml(tipoServidor)}
                 </span>
             </div>
 
@@ -625,7 +653,8 @@ function clearSearch(event) {
     /*
      * Limpa os campos.
      */
-
+    
+    tipoSelect.value = "ativos";
     nomeInput.value = "";
     cargoInput.value = "";
     ufInput.value = "";

@@ -15,6 +15,7 @@ db/data/
 *.csv
 *.csv.gz
 *.zip
+data/
 
 # IDE / SO
 .vscode/
@@ -23,3 +24,5 @@ db/data/
 
 # Docker
 *.log
+
+notas.txt

@@ -22,6 +22,16 @@ Serviços:
 | Backend (API) | http://localhost:5000 |
 | PostgreSQL | localhost:5432 |
 
+## Dados
+
+Os arquivos grandes da pasta `data/` foram disponibilizados separadamente por
+Google Drive e nao sao versionados no Git nem incluidos no ZIP:
+
+https://drive.google.com/file/d/1-phQiJv6KdShJOqa7TG_WBu5JFYzv1fK/view?usp=drive_link
+
+Quando necessario, baixar os dados e posiciona-los conforme a documentacao em
+`docs/FONTE_DADOS.txt`.
+
 ## Equipe
 
 - Alessandro Goldas da Cruz (166600) - Gerente

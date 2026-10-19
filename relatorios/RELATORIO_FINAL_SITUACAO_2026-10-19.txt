@@ -1,0 +1,248 @@
+======================================================================
+RELATORIO FINAL - SITUACAO DO PROJETO
+TRABALHO TERCEIRO TRIMESTRE - SISTEMAS PARA INTERNET II
+======================================================================
+
+Data de atualizacao: 19/10/2026
+Data limite informada para entrega: 20/10/2026
+Projeto entregue: pasta projeto/
+Repositorio: https://github.com/Ubaldo11/trabalho-sist.-internet-2
+Branch oficial auditada: main
+Responsavel pelo relatorio: Alessandro Goldas da Cruz (RA 166600)
+
+======================================================================
+1. OBJETIVO
+======================================================================
+
+Desenvolver uma aplicacao full stack para consulta de dados de servidores
+ativos e aposentados do Poder Executivo Federal, com GitHub, Docker,
+PostgreSQL, backend Python com Flask e Gunicorn e frontend web.
+
+Os requisitos funcionais previstos no enunciado sao:
+
+- busca exata por nome;
+- busca por similaridade de nome;
+- busca por cargo ou profissao;
+- busca por estado/UF;
+- busca por instituicao/orgao;
+- busca combinada por mais de um criterio;
+- retorno dos registros em JSON;
+- paginacao quando houver varios resultados;
+- tratamento de parametros invalidos, SQL injection, resultados vazios,
+  excesso de requisicoes e timeout;
+- execucao pela raiz de projeto com docker compose up --build.
+
+======================================================================
+2. EQUIPE E RESPONSABILIDADES ATUALIZADAS
+======================================================================
+
+Alessandro Goldas da Cruz - RA 166600 - Gerente/Lider Tecnico
+
+- Docker Compose e integracao dos containers;
+- documentacao e relatorios;
+- acompanhamento de branches, pull requests e commits;
+- validacao da execucao final;
+- registro de dificuldades, pontos fortes/fracos e burndown.
+
+Daniel Ubaldo - RA 166688 - Backend
+
+- backend em Python, Flask e Gunicorn;
+- endpoints da API;
+- comunicacao com PostgreSQL;
+- validacoes, tratamento de erros e seguranca do backend.
+
+Jadson Henrique - RA 155483 - Frontend
+
+- HTML, CSS e JavaScript;
+- interface de busca;
+- exibicao dos resultados;
+- paginacao e consumo da API.
+
+Matheus Siqueira - RA 129870 - Apoio de integracao
+
+- apoio ao Daniel na integracao das buscas ao sistema;
+- testes das buscas;
+- validacao da comunicacao entre backend, banco e frontend.
+
+======================================================================
+3. ESTRUTURA DO PROJETO
+======================================================================
+
+A entrega deve conter a pasta principal projeto/ com:
+
+projeto/
+|-- docker-compose.yml
+|-- backend/
+|-- frontend/
+|-- db/
+|-- docs/
+`-- relatorios/
+
+A pasta data/ foi disponibilizada separadamente por Drive devido ao tamanho
+dos arquivos e nao deve ser adicionada ao Git. Link oficial de acesso:
+
+https://drive.google.com/file/d/1-phQiJv6KdShJOqa7TG_WBu5JFYzv1fK/view?usp=drive_link
+
+Os dados devem ser posicionados conforme a orientacao do banco, em
+db/data/preparados/, quando forem usados na construcao da imagem PostgreSQL.
+
+======================================================================
+4. SITUACAO ATUAL DOS COMPONENTES
+======================================================================
+
+4.1 GitHub e versionamento
+
+- Repositorio GitHub configurado.
+- Branch main atualizada no GitHub em 19/10/2026.
+- Hook de validacao de Conventional Commits presente no projeto.
+- Historico de commits documentado abaixo.
+- Arquivos grandes de dados mantidos fora do Git.
+
+4.2 Docker Compose
+
+O docker-compose.yml declara tres servicos:
+
+- db-server: PostgreSQL, porta 5432, volume persistente e healthcheck;
+- backend: porta 5000, dependente do banco saudavel;
+- frontend: porta 8080, dependente do backend;
+- rede interna app-network.
+
+O comando docker compose config foi validado anteriormente com sucesso.
+Existe um aviso nao bloqueante sobre o atributo version estar obsoleto.
+
+4.3 Banco de dados
+
+O repositorio possui a estrutura de banco e os arquivos de inicializacao
+publicados pela equipe. Os dados grandes foram disponibilizados separadamente
+por Drive e acompanham o pacote da entrega conforme a orientacao da equipe.
+
+Dados preparados anteriormente:
+
+- aposentados: 815.901 registros exportados;
+- carreiras: 1.092.162 registros exportados;
+- nenhuma linha rejeitada no processamento;
+- deduplicacao exata depois da normalizacao.
+
+O banco utiliza PostgreSQL, tabelas para aposentados e carreiras e indices
+para apoiar buscas por nome, cargo, UF e orgao.
+
+4.4 Backend
+
+Na branch main publicada no GitHub, backend/ possui Dockerfile, app.py,
+requirements.txt, scripts de conversao/importacao e testes da API. O projeto
+tambem declara Flask, Gunicorn, psycopg2 e Flask-Limiter.
+
+Responsavel: Daniel, com apoio de Matheus na integracao das buscas.
+
+4.5 Frontend
+
+O repositorio possui Dockerfile e arquivos HTML, CSS e JavaScript do
+frontend. A imagem frontend foi construida anteriormente com sucesso.
+A integracao com uma API backend funcional ainda precisa ser validada.
+
+Responsavel: Jadson.
+
+======================================================================
+5. HISTORICO DE COMMITS DO GITHUB
+======================================================================
+
+Historico levantado na branch main ate 19/10/2026:
+
+14/09/2026 - 337d702 - Ubaldo11 - Initial commit
+14/09/2026 - f3b44ee - maninhofurg - feat: commit inicial com estrutura base e docker-compose.yml
+14/09/2026 - ef8726f - maninhofurg - chore: integrar README do GitHub
+14/09/2026 - 5f58e82 - maninhofurg - chore: adicionar hook de validacao de commits
+15/09/2026 - bfa6bbe - maninhofurg - docs: adicionar modelo do relatorio final do projeto
+15/09/2026 - 1757929 - maninhofurg - docs: atualizar historico de commits no modelo do relatorio
+15/09/2026 - 5827bd4 - maninho - docs: modelo do relatorio final
+17/09/2026 - 038d515 - Jadsonhenr - feat(frontend): cria estrutura inicial do frontend
+17/09/2026 - e9c18c7 - Jadsonhenr - merge da branch main
+18/09/2026 - f31fddb - Jadsonhenr - feat: aprimora interface do frontend
+18/09/2026 - 859b199 - Jadsonhenr - feat: aprimora interface do frontend
+19/09/2026 - b6af9b1 - Jadson Henrique - feat: aplica tema hacker ao frontend
+19/09/2026 - bfd734b - JADSON GERINK - docs: atualiza registro de commits
+20/09/2026 - 7a81bab - maninhofurg - feat: adiciona scripts iniciais do banco de dados
+20/09/2026 - 3a188f9 - Jadson Henrique - feat: aplica tema hacker ao frontend
+24/09/2026 - 1567f85 - maninhofurg - feat(db): adicionar container e importacao do banco
+25/09/2026 - f14760c - maninhofurg - docs: adicionar relatorios de situacao e banco
+25/09/2026 - 8913373 - maninhofurg - docs: atualizar responsabilidades da equipe
+04/10/2026 - d843f04 - maninho - merge da main na gerente
+04/10/2026 - 8d8c6c7 - maninho - fix name formatting in team section of README
+19/10/2026 - be01d02 - mathspin - Inclusao do backend e modificacoes
+
+Observacao: o historico mostra commits de frontend, preparacao de dados,
+backend, Docker e documentacao.
+
+======================================================================
+6. BURNDOWN DA SPRINT
+======================================================================
+
+Sprint planejada: 30 dias.
+Data de referencia deste relatorio: 19/10/2026.
+
+Tarefas principais e situacao:
+
+1. GitHub, branches e hook de commits ............. CONCLUIDA
+2. Docker Compose base ............................ CONCLUIDA
+3. Preparacao e limpeza dos dados .................. CONCLUIDA PARCIALMENTE
+4. Dockerfile/schema/importacao do banco ........... ENTREGUE NO GIT
+5. Frontend HTML/CSS/JavaScript .................... ENTREGUE NO GIT
+6. Backend Flask/Gunicorn .......................... ENTREGUE NO GIT
+7. Integracao backend, banco e frontend ............ ORGANIZADA NO COMPOSE
+8. Testes funcionais e de sobrecarga ................ DOCUMENTADOS PELA EQUIPE
+9. Relatorio final e pacote de entrega ............. EM FINALIZACAO
+
+Resumo gerencial do burndown:
+
+- Inicio da sprint: 9 tarefas abertas;
+- tarefas concluidas ou encaminhadas: GitHub, Compose, preparacao inicial,
+  frontend inicial e documentacao;
+- tarefas restantes: consolidacao dos arquivos grandes, pacote final e
+  entrega dos relatorios;
+- situacao documental: componentes publicados na main do GitHub.
+
+======================================================================
+7. PONTOS FORTES
+======================================================================
+
+- Repositorio GitHub utilizado durante o desenvolvimento.
+- Divisao de responsabilidades registrada.
+- Uso de branches e commits com padrao Conventional Commits.
+- Docker Compose ja define a arquitetura dos tres servicos.
+- Dados grandes foram preparados, normalizados e mantidos fora do Git.
+- Frontend possui estrutura visual e arquivos de consumo da API.
+- Relatorios de mudanca e orientacao do banco foram produzidos.
+
+======================================================================
+8. PONTOS FRACOS E DIFICULDADES
+======================================================================
+
+- Os arquivos de dados sao grandes e precisam ser compartilhados fora do Git.
+- O pacote final precisa conter a pasta projeto/ e os dados disponibilizados
+  separadamente pela equipe.
+- O relatorio precisa ser atualizado caso existam novos commits antes do envio.
+
+======================================================================
+9. CHECKLIST FINAL PARA ENTREGA EM 20/10/2026
+======================================================================
+
+[X] Receber backend/ com Dockerfile, requirements e app Flask.
+[X] Registrar Gunicorn e a porta 5000 na configuracao do projeto.
+[X] Publicar banco, frontend e backend no GitHub.
+[X] Atualizar historico de commits e responsabilidades.
+[ ] Consolidar a pasta data disponibilizada por Drive para a entrega.
+[ ] Gerar o ZIP contendo a pasta projeto/.
+[ ] Enviar o relatorio final ate 20/10/2026.
+
+======================================================================
+10. PARECER FINAL DA AUDITORIA
+======================================================================
+
+A pasta projeto/ possui no GitHub a estrutura de frontend, backend, banco,
+Docker Compose, scripts e documentacao exigida. Os dados grandes foram
+compartilhados separadamente por Drive, conforme combinado pela equipe.
+
+Situacao geral: ENTREGA ORGANIZADA NO GITHUB, COM RELATORIOS EM FINALIZACAO
+E PACOTE FINAL PENDENTE DE CONSOLIDACAO.
+
+======================================================================

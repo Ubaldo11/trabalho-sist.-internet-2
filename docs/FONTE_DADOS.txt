@@ -1,0 +1,22 @@
+FONTE DOS DADOS - TRABALHO TERCEIRO TRIMESTRE
+
+Os arquivos grandes utilizados no projeto foram disponibilizados
+separadamente por Google Drive porque nao devem ser versionados no Git.
+
+Link para download:
+
+https://drive.google.com/file/d/1-phQiJv6KdShJOqa7TG_WBu5JFYzv1fK/view?usp=drive_link
+
+Depois do download, manter os arquivos fora do Git e posicionar os dados
+preparados conforme a estrutura usada pelo banco:
+
+projeto/db/data/preparados/
+
+Arquivos esperados pelo banco:
+
+- aposentados.csv
+- carreiras.csv
+- relatorio_preparacao.json
+
+O ZIP da entrega inclui este documento e o link, mas nao inclui os arquivos
+grandes de dados.

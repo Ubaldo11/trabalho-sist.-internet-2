@@ -2,17 +2,17 @@
 
 **Aplicacao Full Stack - Servidores do Executivo Federal**
 
-- Disciplina: Sistemas para Internet II - 3o Bimestre
-- Prazo de entrega: 13/10/2026
+- Disciplina: Sistemas para Internet II - 3º Bimestre
+- Prazo de entrega: 20/10/2026
 
 ## 1. Integrantes e Papel
 
 | Nome | RA | Papel / Responsabilidades |
 |---|---|---|
 | Alessandro Goldas da Cruz | 166600 | Gerente / Lider Tecnico: docker-compose, documentacao, relatorios, burndown |
-| Daniel Ubaldo | 166688 | Banco de Dados: schema PostgreSQL, contêiner db-server, importacao e indices |
+| Daniel Ubaldo | 166688 | Backend: Python, Flask, Gunicorn e endpoints da API |
 | Jadson Henrique | 155483 | Frontend: HTML/CSS/JS, telas de busca, paginacao, consumo da API |
-| Matheus Siqueira | 129870 | Backend API: Flask + Gunicorn, endpoints, buscas, seguranca |
+| Matheus Siqueira | 129870 | Apoio na integracao das buscas ao sistema e validacao da integracao |
 
 ## 2. Cronograma / Sprint (30 dias)
 
